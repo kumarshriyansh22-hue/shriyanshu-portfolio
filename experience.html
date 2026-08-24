@@ -1,1400 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Experience — Shriyanshu</title>
-
-    <style>
-        /* =========================================================
-           SHRIYANSHU — EXPERIENCE
-           Portfolio System v2
-        ========================================================= */
-
-        :root {
-            --bg: #f7f7f5;
-            --surface: #ffffff;
-            --black: #111111;
-            --text: #202020;
-            --muted: #686868;
-            --light: #999999;
-            --border: #dededb;
-            --lime: #c8ff24;
-            --lime-dark: #aee600;
-            --dark: #111111;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        ::selection {
-            background: var(--lime);
-            color: var(--black);
-        }
-
-
-        /* =========================================================
-           NAVBAR
-        ========================================================= */
-
-        .navbar {
-            height: 90px;
-            padding: 0 8%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            background: rgba(247, 247, 245, 0.94);
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(14px);
-        }
-
-        .logo {
-            font-size: 21px;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .logo span {
-            color: var(--lime-dark);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .nav-links a {
-            position: relative;
-            color: #555;
-            font-size: 14px;
-            font-weight: 600;
-            transition: color 0.25s ease;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--black);
-        }
-
-        .nav-links a.active::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -13px;
-            height: 3px;
-            background: var(--black);
-        }
-
-
-        /* =========================================================
-           HERO
-        ========================================================= */
-
-        .hero {
-            max-width: 1380px;
-            margin: auto;
-            padding: 150px 8% 135px;
-            min-height: 650px;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-content {
-            width: 100%;
-        }
-
-        .eyebrow {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            margin-bottom: 35px;
-
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #666;
-        }
-
-        .eyebrow::before {
-            content: "";
-            width: 26px;
-            height: 2px;
-            background: var(--black);
-        }
-
-        .hero h1 {
-            max-width: 1050px;
-
-            font-size: clamp(72px, 10vw, 145px);
-            line-height: 0.84;
-            letter-spacing: -8px;
-            font-weight: 900;
-
-            margin-bottom: 55px;
-        }
-
-        .hero h1 span {
-            color: #999996;
-        }
-
-        .hero-description {
-            max-width: 760px;
-
-            font-size: 18px;
-            line-height: 1.75;
-            color: #5c5c5c;
-        }
-
-
-        /* =========================================================
-           GENERAL SECTIONS
-        ========================================================= */
-
-        .section {
-            padding: 125px 8%;
-            border-top: 1px solid var(--border);
-        }
-
-        .section-inner {
-            max-width: 1180px;
-            margin: auto;
-        }
-
-        .section-label {
-            margin-bottom: 20px;
-
-            color: #777;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .section-title {
-            max-width: 900px;
-
-            margin-bottom: 70px;
-
-            font-size: clamp(50px, 6vw, 84px);
-            line-height: 0.92;
-            letter-spacing: -5px;
-            font-weight: 900;
-        }
-
-        .section-title span {
-            color: #999996;
-        }
-
-
-        /* =========================================================
-           EXPERIENCE LIST
-        ========================================================= */
-
-        .experience-list {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .experience-card {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-
-            gap: 45px;
-
-            padding: 48px;
-
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-
-            transition:
-                transform 0.35s ease,
-                box-shadow 0.35s ease,
-                border-color 0.35s ease;
-        }
-
-        .experience-card:hover {
-            transform: translateY(-6px);
-            border-color: #c9c9c6;
-            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.07);
-        }
-
-        .experience-number {
-            font-size: 76px;
-            line-height: 0.9;
-            font-weight: 900;
-            letter-spacing: -6px;
-            color: #e5e5e2;
-        }
-
-        .experience-meta {
-            display: inline-block;
-
-            margin-bottom: 16px;
-
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-
-            color: #666;
-        }
-
-        .experience-card h3 {
-            font-size: 38px;
-            line-height: 1;
-            letter-spacing: -2px;
-            margin-bottom: 8px;
-        }
-
-        .role {
-            margin-bottom: 22px;
-
-            font-size: 15px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .experience-card p {
-            max-width: 760px;
-
-            font-size: 16px;
-            line-height: 1.75;
-            color: #626262;
-        }
-
-
-        /* =========================================================
-           TAGS
-        ========================================================= */
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 25px;
-        }
-
-        .tag {
-            padding: 8px 13px;
-
-            border: 1px solid #d7d7d4;
-            border-radius: 999px;
-
-            background: #fafaf8;
-
-            color: #4b4b4b;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-
-        /* =========================================================
-           FEATURED EXPERIENCE
-        ========================================================= */
-
-        .featured {
-            position: relative;
-            overflow: hidden;
-
-            padding: 65px;
-
-            background: var(--dark);
-            color: white;
-
-            border-radius: 28px;
-        }
-
-        .featured::before {
-            content: "";
-
-            position: absolute;
-            width: 300px;
-            height: 300px;
-
-            top: -140px;
-            right: -100px;
-
-            background: var(--lime);
-
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.12;
-        }
-
-        .featured::after {
-            content: "FINSEC";
-
-            position: absolute;
-            right: -35px;
-            bottom: -55px;
-
-            font-size: 180px;
-            line-height: 1;
-            font-weight: 900;
-            letter-spacing: -12px;
-
-            color: rgba(255, 255, 255, 0.035);
-
-            pointer-events: none;
-        }
-
-        .featured-top {
-            position: relative;
-            z-index: 2;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            margin-bottom: 60px;
-        }
-
-        .featured-label {
-            color: var(--lime);
-
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .featured-year {
-            color: #777;
-
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 2px;
-        }
-
-        .featured h3 {
-            position: relative;
-            z-index: 2;
-
-            margin-bottom: 12px;
-
-            font-size: clamp(60px, 8vw, 105px);
-            line-height: 0.88;
-            letter-spacing: -7px;
-            font-weight: 900;
-        }
-
-        .featured-role {
-            position: relative;
-            z-index: 2;
-
-            margin-bottom: 30px;
-
-            font-size: 18px;
-            color: #bdbdbd;
-        }
-
-        .featured-description {
-            position: relative;
-            z-index: 2;
-
-            max-width: 780px;
-
-            font-size: 16px;
-            line-height: 1.8;
-            color: #c8c8c8;
-        }
-
-        .featured .tag {
-            color: #ddd;
-            background: #1b1b1b;
-            border-color: #343434;
-        }
-
-
-        /* =========================================================
-           WORK / CONTRIBUTIONS
-        ========================================================= */
-
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
-
-        .work-card {
-            min-height: 285px;
-
-            padding: 38px;
-
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-
-            transition:
-                transform 0.3s ease,
-                box-shadow 0.3s ease;
-        }
-
-        .work-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.07);
-        }
-
-        .work-index {
-            margin-bottom: 35px;
-
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #777;
-        }
-
-        .work-card h3 {
-            margin-bottom: 14px;
-
-            font-size: 29px;
-            letter-spacing: -1.5px;
-        }
-
-        .work-card p {
-            max-width: 500px;
-
-            color: #666;
-            font-size: 15px;
-            line-height: 1.75;
-        }
-
-
-        /* =========================================================
-           SKILLS IN PRACTICE
-        ========================================================= */
-
-        .skills-section {
-            background: var(--dark);
-            color: white;
-        }
-
-        .skills-section .section-label {
-            color: var(--lime);
-        }
-
-        .skills-section .section-title span {
-            color: #777;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .skill {
-            padding: 27px 23px;
-
-            background: #161616;
-            border: 1px solid #303030;
-            border-radius: 15px;
-
-            transition:
-                transform 0.3s ease,
-                border-color 0.3s ease;
-        }
-
-        .skill:hover {
-            transform: translateY(-4px);
-            border-color: var(--lime);
-        }
-
-        .skill strong {
-            display: block;
-
-            margin-bottom: 6px;
-
-            font-size: 14px;
-            color: white;
-        }
-
-        .skill small {
-            color: #888;
-            font-size: 11px;
-        }
-
-
-        /* =========================================================
-           CURRENT FOCUS
-        ========================================================= */
-
-        .focus {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-        }
-
-        .focus h2 {
-            font-size: clamp(44px, 5vw, 68px);
-            line-height: 0.95;
-            letter-spacing: -4px;
-            font-weight: 900;
-        }
-
-        .focus h2 span {
-            color: #999996;
-        }
-
-        .focus-text {
-            margin-bottom: 30px;
-
-            color: #606060;
-            font-size: 17px;
-            line-height: 1.8;
-        }
-
-        .focus-list {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .focus-item {
-            padding: 18px 0;
-
-            border-bottom: 1px solid var(--border);
-
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .focus-item::before {
-            content: "→";
-
-            margin-right: 12px;
-
-            color: #111;
-            font-weight: 900;
-        }
-
-
-        /* =========================================================
-           CTA
-        ========================================================= */
-
-        .cta {
-            padding: 140px 8%;
-
-            border-top: 1px solid var(--border);
-
-            text-align: center;
-        }
-
-        .cta-inner {
-            max-width: 900px;
-            margin: auto;
-        }
-
-        .cta h2 {
-            margin-bottom: 30px;
-
-            font-size: clamp(55px, 7vw, 100px);
-            line-height: 0.9;
-            letter-spacing: -6px;
-            font-weight: 900;
-        }
-
-        .cta h2 span {
-            color: #999996;
-        }
-
-        .cta p {
-            max-width: 620px;
-
-            margin: 0 auto 35px;
-
-            color: #666;
-            font-size: 16px;
-            line-height: 1.75;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-
-            padding: 16px 25px;
-
-            background: var(--black);
-            color: white;
-
-            border-radius: 999px;
-
-            font-size: 14px;
-            font-weight: 800;
-
-            transition:
-                transform 0.3s ease,
-                background 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-4px);
-            background: #292929;
-        }
-
-
-        /* =========================================================
-           FOOTER
-        ========================================================= */
-
-        footer {
-            padding: 35px 8%;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-inner {
-            max-width: 1180px;
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-        }
-
-        footer p {
-            color: #777;
-            font-size: 12px;
-        }
-
-        .footer-link {
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        .footer-link:hover {
-            text-decoration: underline;
-        }
-
-
-        /* =========================================================
-           RESPONSIVE — TABLET
-        ========================================================= */
-
-        @media (max-width: 950px) {
-
-            .navbar {
-                padding: 0 5%;
-            }
-
-            .nav-links {
-                gap: 18px;
-            }
-
-            .nav-links a {
-                font-size: 12px;
-            }
-
-            .hero {
-                padding: 115px 6% 100px;
-            }
-
-            .section {
-                padding: 95px 6%;
-            }
-
-            .experience-card {
-                grid-template-columns: 100px 1fr;
-                gap: 30px;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .focus {
-                gap: 45px;
-            }
-        }
-
-
-        /* =========================================================
-           RESPONSIVE — MOBILE
-        ========================================================= */
-
-        @media (max-width: 650px) {
-
-            .navbar {
-                height: 75px;
-                padding: 0 20px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                padding: 85px 22px 85px;
-                min-height: auto;
-            }
-
-            .eyebrow {
-                margin-bottom: 27px;
-                font-size: 10px;
-                letter-spacing: 2.5px;
-            }
-
-            .hero h1 {
-                font-size: 70px;
-                line-height: 0.88;
-                letter-spacing: -5px;
-                margin-bottom: 35px;
-            }
-
-            .hero-description {
-                font-size: 15px;
-                line-height: 1.7;
-            }
-
-            .section {
-                padding: 75px 22px;
-            }
-
-            .section-title {
-                margin-bottom: 45px;
-                font-size: 50px;
-                letter-spacing: -3px;
-            }
-
-            .experience-card {
-                grid-template-columns: 1fr;
-                gap: 18px;
-                padding: 28px;
-                border-radius: 18px;
-            }
-
-            .experience-number {
-                font-size: 50px;
-                letter-spacing: -4px;
-            }
-
-            .experience-card h3 {
-                font-size: 31px;
-            }
-
-            .experience-card p {
-                font-size: 15px;
-            }
-
-            .featured {
-                padding: 32px 25px;
-                border-radius: 20px;
-            }
-
-            .featured-top {
-                margin-bottom: 45px;
-            }
-
-            .featured h3 {
-                font-size: 62px;
-                letter-spacing: -5px;
-            }
-
-            .featured-role {
-                font-size: 16px;
-            }
-
-            .featured-description {
-                font-size: 15px;
-            }
-
-            .featured::after {
-                font-size: 90px;
-                letter-spacing: -7px;
-                right: -20px;
-            }
-
-            .work-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .work-card {
-                min-height: auto;
-                padding: 28px;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .focus {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .focus h2 {
-                font-size: 48px;
-                letter-spacing: -3px;
-            }
-
-            .cta {
-                padding: 90px 22px;
-            }
-
-            .cta h2 {
-                font-size: 58px;
-                letter-spacing: -4px;
-            }
-
-            .cta p {
-                font-size: 15px;
-            }
-
-            footer {
-                padding: 30px 22px;
-            }
-
-            .footer-inner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-
-
-        /* =========================================================
-           REDUCED MOTION
-        ========================================================= */
-
-        @media (prefers-reduced-motion: reduce) {
-
-            html {
-                scroll-behavior: auto;
-            }
-
-            *,
-            *::before,
-            *::after {
-                transition: none !important;
-            }
-        }
-
-    </style>
+    <meta name="description" content="Experience and involvement of Shriyanshu across college societies, social media, creative work and events.">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
-
 <body>
 
-    <!-- =========================================================
-         NAVIGATION
-    ========================================================= -->
+    <div class="scroll-progress" id="scrollProgress"></div>
 
-    <nav class="navbar">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Shriyanshu<span>.</span></a>
 
-        <a href="index.html" class="logo">
-            Shriyanshu<span>.</span>
-        </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
+                <span></span><span></span>
+            </button>
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="experience.html" class="active">Experience</a>
-            <a href="projects.html">Projects</a>
-            <a href="skills.html">Skills</a>
-            <a href="certifications.html">Certifications</a>
-            <a href="contact.html">Contact</a>
+            <nav id="mainNav">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="experience.html" class="active">Experience</a>
+                <a href="projects.html">Projects</a>
+                <a href="skills.html">Skills</a>
+                <a href="certifications.html">Certifications</a>
+                <a href="contact.html">Contact</a>
+            </nav>
         </div>
-
-    </nav>
-
-
-    <!-- =========================================================
-         HERO
-    ========================================================= -->
-
-    <header class="hero">
-
-        <div class="hero-content">
-
-            <div class="eyebrow">
-                Experience & Involvement
-            </div>
-
-            <h1>
-                Learning by<br>
-                <span>doing.</span>
-            </h1>
-
-            <p class="hero-description">
-                My experience so far has mainly come from college societies,
-                event involvement, social media work, and hands-on creative
-                projects. I'm building practical experience by creating,
-                contributing, experimenting, and learning through real work.
-            </p>
-
-        </div>
-
     </header>
 
+    <main>
 
-    <!-- =========================================================
-         EXPERIENCE
-    ========================================================= -->
-
-    <section class="section">
-
-        <div class="section-inner">
-
-            <div class="section-label">
-                My Experience
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content reveal">
+                    <p class="eyebrow">Experience & Involvement</p>
+                    <h1>Learning by <span>doing.</span></h1>
+                    <p class="hero-text">
+                        My experience so far has mainly come from college societies,
+                        event involvement, social media work, and hands-on creative
+                        projects. I'm building practical experience by creating,
+                        contributing, experimenting, and learning through real work.
+                    </p>
+                </div>
             </div>
+        </section>
 
-            <h2 class="section-title">
-                Where I've been<br>
-                <span>building experience.</span>
-            </h2>
+        <section class="section">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">My Experience</p>
+                    <h2>Where I've been <span>building experience.</span></h2>
+                </div>
 
-
-            <div class="experience-list">
-
-                <article class="experience-card">
-
-                    <div class="experience-number">
-                        01
-                    </div>
-
-                    <div>
-
-                        <div class="experience-meta">
-                            College Society · Present
-                        </div>
-
+                <div class="focus-grid experience-grid">
+                    <article class="focus-card reveal">
+                        <div class="focus-number">01</div>
+                        <p class="project-category">College Society · Present</p>
                         <h3>FINSEC</h3>
-
-                        <div class="role">
-                            Social Media Team Member
-                        </div>
-
                         <p>
-                            I contribute to FINSEC's social media work through
-                            content editing, creative ideation, planning, and
-                            the creation and management of posts and reels.
-                            This experience has helped me understand how ideas
-                            are developed into content for a specific audience.
+                            I contribute to FINSEC's social media work through content
+                            editing, creative ideation, planning, and the creation and
+                            management of posts and reels. This experience has helped
+                            me understand how ideas become content for a specific audience.
                         </p>
-
-                        <div class="tags">
-                            <span class="tag">Social Media</span>
-                            <span class="tag">Content Creation</span>
-                            <span class="tag">Editing</span>
-                            <span class="tag">Creative Ideation</span>
+                        <div class="project-tags">
+                            <span>Social Media</span><span>Content Creation</span>
+                            <span>Editing</span><span>Creative Ideation</span>
                         </div>
+                    </article>
 
-                    </div>
-
-                </article>
-
-
-                <article class="experience-card">
-
-                    <div class="experience-number">
-                        02
-                    </div>
-
-                    <div>
-
-                        <div class="experience-meta">
-                            College Society · Present
-                        </div>
-
+                    <article class="focus-card reveal">
+                        <div class="focus-number">02</div>
+                        <p class="project-category">College Society · Present</p>
                         <h3>CII Yi YUVA</h3>
-
-                        <div class="role">
-                            Entrepreneurship Vertical Member
-                        </div>
-
                         <p>
-                            I am involved with the entrepreneurship vertical,
-                            gaining exposure to entrepreneurship-related
-                            activities, business ideas, teamwork, and
-                            opportunities within a student-led organization.
-                            The experience is helping me understand the
-                            practical side of working around business and
-                            entrepreneurship.
+                            I am involved with the entrepreneurship vertical, gaining
+                            exposure to entrepreneurship-related activities, business
+                            ideas, teamwork, and opportunities within a student-led
+                            organization.
                         </p>
+                        <div class="project-tags">
+                            <span>Entrepreneurship</span><span>Business Ideas</span>
+                            <span>Teamwork</span><span>Planning</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-                        <div class="tags">
-                            <span class="tag">Entrepreneurship</span>
-                            <span class="tag">Business Ideas</span>
-                            <span class="tag">Teamwork</span>
-                            <span class="tag">Planning</span>
+        <section class="dark-section">
+            <div class="container">
+                <div class="dark-grid">
+                    <div class="dark-heading reveal">
+                        <p class="eyebrow">Featured Experience</p>
+                        <h2>Creating for <span>real audiences.</span></h2>
+                    </div>
+
+                    <div class="experience-points reveal">
+                        <div class="experience-item">
+                            <span>01</span>
+                            <div>
+                                <h3>FINSEC</h3>
+                                <p>
+                                    Social media work involving content ideation, editing,
+                                    post and reel creation, and promotional activities.
+                                </p>
+                            </div>
                         </div>
 
+                        <div class="experience-item">
+                            <span>02</span>
+                            <div>
+                                <h3>FINMUN</h3>
+                                <p>
+                                    Contributed to event-related work through FINSEC,
+                                    gaining practical exposure to content and social media
+                                    execution around a college event.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="experience-item">
+                            <span>03</span>
+                            <div>
+                                <h3>Building Bunkers</h3>
+                                <p>
+                                    Contributed through FINSEC and received a Certificate
+                                    of Appreciation for dedicated service and valuable contributions.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="experience-item">
+                            <span>04</span>
+                            <div>
+                                <h3>Events & Entertainment</h3>
+                                <p>
+                                    Volunteering and creative support across rap battle and
+                                    DJ event environments, gaining exposure to event execution
+                                    and behind-the-scenes work.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-
-                </article>
-
+                </div>
             </div>
+        </section>
 
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         FEATURED EXPERIENCE
-    ========================================================= -->
-
-    <section class="section">
-
-        <div class="section-inner">
-
-            <div class="section-label">
-                Featured Experience
-            </div>
-
-            <div class="featured">
-
-                <div class="featured-top">
-
-                    <div class="featured-label">
-                        Social Media · Creative Work
-                    </div>
-
-                    <div class="featured-year">
-                        2026 — Present
-                    </div>
-
+        <section class="section section-light">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Work & Contributions</p>
+                    <h2>Things I've <span>actually worked on.</span></h2>
                 </div>
 
-                <h3>FINSEC</h3>
+                <div class="focus-grid">
+                    <article class="focus-card reveal">
+                        <div class="focus-number">01</div>
+                        <h3>Content & Social Media</h3>
+                        <p>Editing, ideating, planning and creating social media posts and reels for college work.</p>
+                    </article>
 
-                <div class="featured-role">
-                    Social Media Team Member
+                    <article class="focus-card reveal">
+                        <div class="focus-number">02</div>
+                        <h3>Event Content</h3>
+                        <p>Supporting event-related communication and creative execution through society involvement.</p>
+                    </article>
+
+                    <article class="focus-card reveal">
+                        <div class="focus-number">03</div>
+                        <h3>Creative Execution</h3>
+                        <p>Turning ideas into usable content while developing visual thinking, communication and editing skills.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">Skills In Practice</p>
+                    <h2>Skills I'm developing <span>through real work.</span></h2>
                 </div>
 
-                <p class="featured-description">
-                    FINSEC has given me practical exposure to creating and
-                    executing social media content as part of a college
-                    organization. My involvement includes editing, creative
-                    ideation, planning, posts, reels, and event-related
-                    content. It has been an important opportunity to understand
-                    how creative ideas move from planning to actual execution.
-                </p>
-
-                <div class="tags">
-                    <span class="tag">Content Editing</span>
-                    <span class="tag">Post Creation</span>
-                    <span class="tag">Reels</span>
-                    <span class="tag">Creative Ideation</span>
-                    <span class="tag">Social Media</span>
-                    <span class="tag">Event Content</span>
+                <div class="learning-grid">
+                    <div class="learning-card reveal"><span>01</span><h3>Content Creation</h3><p>Planning and executing content for specific audiences.</p></div>
+                    <div class="learning-card reveal"><span>02</span><h3>Social Media</h3><p>Posts, reels and promotional communication.</p></div>
+                    <div class="learning-card reveal"><span>03</span><h3>Video Editing</h3><p>Developing short-form editing and visual storytelling.</p></div>
+                    <div class="learning-card reveal"><span>04</span><h3>Creative Ideation</h3><p>Developing concepts and turning ideas into content.</p></div>
+                    <div class="learning-card reveal"><span>05</span><h3>Visual Design</h3><p>Using visual communication to make ideas clearer and more engaging.</p></div>
+                    <div class="learning-card reveal"><span>06</span><h3>Teamwork</h3><p>Collaborating within student organizations and event environments.</p></div>
                 </div>
-
             </div>
+        </section>
 
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         WORK & CONTRIBUTIONS
-    ========================================================= -->
-
-    <section class="section">
-
-        <div class="section-inner">
-
-            <div class="section-label">
-                Work & Contributions
-            </div>
-
-            <h2 class="section-title">
-                Things I've<br>
-                <span>actually worked on.</span>
-            </h2>
-
-
-            <div class="work-grid">
-
-                <article class="work-card">
-
-                    <div class="work-index">
-                        01 / FINMUN
+        <section class="section section-light">
+            <div class="container">
+                <div class="split-section">
+                    <div class="large-number reveal">04</div>
+                    <div class="section-copy reveal">
+                        <p class="eyebrow">What's Next</p>
+                        <h2>Turning college experience into <span>stronger professional work.</span></h2>
+                        <p>
+                            I'm currently building my experience around marketing,
+                            social media, content creation, finance-related environments,
+                            and creative strategy.
+                        </p>
+                        <p>
+                            For now, I'm focused on doing more real projects, improving
+                            my portfolio, participating in case competitions, and learning
+                            through the opportunities around me.
+                        </p>
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <h3>FINMUN</h3>
-
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content reveal">
+                    <p class="eyebrow">Let's Connect</p>
+                    <h2>Let's create something <span>worth noticing.</span></h2>
                     <p>
-                        Contributed to event-related work as part of FINSEC,
-                        gaining practical exposure to content and social media
-                        execution around a college event.
+                        I'm interested in marketing, social media, content, creativity,
+                        strategy, collaborations, and opportunities to keep learning through real work.
                     </p>
-
-                </article>
-
-
-                <article class="work-card">
-
-                    <div class="work-index">
-                        02 / BUILDING BUNKERS
+                    <div class="hero-buttons">
+                        <a href="contact.html" class="btn primary">Let's Talk ↗</a>
+                        <a href="projects.html" class="btn secondary">View Projects</a>
                     </div>
-
-                    <h3>Building Bunkers</h3>
-
-                    <p>
-                        Contributed to the event through FINSEC and received
-                        a Certificate of Appreciation for dedicated service
-                        and valuable contributions.
-                    </p>
-
-                </article>
-
-
-                <article class="work-card">
-
-                    <div class="work-index">
-                        03 / CREATIVE
-                    </div>
-
-                    <h3>Creative Execution</h3>
-
-                    <p>
-                        Working on real college content has helped me develop
-                        practical skills in editing, visual thinking,
-                        communication, and turning ideas into usable content.
-                    </p>
-
-                </article>
-
-
-                <article class="work-card">
-
-                    <div class="work-index">
-                        04 / EVENT INVOLVEMENT
-                    </div>
-
-                    <h3>Event & Entertainment Work</h3>
-
-                    <p>
-                        I have also contributed to college and entertainment
-                        event environments, including rap battle and DJ event
-                        involvement, gaining exposure to event execution,
-                        creative communication, and behind-the-scenes work.
-                    </p>
-
-                </article>
-
+                </div>
             </div>
+        </section>
 
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         SKILLS IN PRACTICE
-    ========================================================= -->
-
-    <section class="section skills-section">
-
-        <div class="section-inner">
-
-            <div class="section-label">
-                Skills In Practice
-            </div>
-
-            <h2 class="section-title">
-                Skills I'm developing<br>
-                <span>through real work.</span>
-            </h2>
-
-
-            <div class="skills-grid">
-
-                <div class="skill">
-                    <strong>Content Creation</strong>
-                    <small>Planning & execution</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Social Media</strong>
-                    <small>Posts & reels</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Video Editing</strong>
-                    <small>Short-form content</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Creative Ideation</strong>
-                    <small>Concept development</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Visual Design</strong>
-                    <small>Creative communication</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Event Content</strong>
-                    <small>Event-related execution</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Teamwork</strong>
-                    <small>Student organizations</small>
-                </div>
-
-                <div class="skill">
-                    <strong>Communication</strong>
-                    <small>Ideas & collaboration</small>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         CURRENT FOCUS
-    ========================================================= -->
-
-    <section class="section">
-
-        <div class="section-inner">
-
-            <div class="focus">
-
-                <div>
-
-                    <div class="section-label">
-                        What's Next
-                    </div>
-
-                    <h2>
-                        Turning college<br>
-                        experience into<br>
-                        <span>professional experience.</span>
-                    </h2>
-
-                </div>
-
-
-                <div>
-
-                    <p class="focus-text">
-                        I'm currently building my experience around marketing,
-                        social media, content creation, and creative strategy.
-                        My goal is to keep working on real projects and
-                        gradually move from college-level work towards
-                        professional marketing opportunities.
-                    </p>
-
-                    <div class="focus-list">
-
-                        <div class="focus-item">
-                            Marketing & social media internships
-                        </div>
-
-                        <div class="focus-item">
-                            More real-world content projects
-                        </div>
-
-                        <div class="focus-item">
-                            Case competitions & business strategy
-                        </div>
-
-                        <div class="focus-item">
-                            Building a stronger creative portfolio
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         CTA
-    ========================================================= -->
-
-    <section class="cta">
-
-        <div class="cta-inner">
-
-            <h2>
-                Let's create<br>
-                something <span>worth noticing.</span>
-            </h2>
-
-            <p>
-                I'm interested in marketing, social media, content,
-                creative strategy, collaborations, and opportunities
-                where I can contribute while continuing to learn.
-            </p>
-
-            <a href="contact.html" class="cta-button">
-                Let's connect →
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================================================
-         FOOTER
-    ========================================================= -->
+    </main>
 
     <footer>
-
-        <div class="footer-inner">
-
-            <p>
-                © 2026 Shriyanshu. Built with curiosity and creativity.
-            </p>
-
-            <a href="contact.html" class="footer-link">
-                Let's connect →
-            </a>
-
+        <div class="container footer-content">
+            <div>
+                <a href="index.html" class="footer-logo">Shriyanshu.</a>
+                <p>Marketing · Creativity · Strategy</p>
+            </div>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="experience.html">Experience</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Shriyanshu</span>
+                <span>Built with curiosity & creativity.</span>
+            </div>
         </div>
-
     </footer>
 
+    <script src="js/main.js"></script>
 </body>
 </html>
