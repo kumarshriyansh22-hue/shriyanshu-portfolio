@@ -6,6 +6,80 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================================================
+       ACCESSIBILITY + PAGE METADATA
+    ========================================================= */
+
+    const siteBase = "https://kumarshriyansh22-hue.github.io/shriyanshu-portfolio/";
+    const pageFile = window.location.pathname.split("/").pop() || "index.html";
+    const canonicalUrl = pageFile === "index.html" ? siteBase : `${siteBase}${pageFile}`;
+    const pageDescription = document.querySelector('meta[name="description"]')?.getAttribute("content") || "Shriyanshu — Marketing & Creative Portfolio";
+
+    const ensureMeta = (selector, attributes) => {
+        let element = document.head.querySelector(selector);
+        if (!element) {
+            element = document.createElement("meta");
+            document.head.appendChild(element);
+        }
+        Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+    };
+
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl;
+
+    ensureMeta('meta[property="og:type"]', { property: "og:type", content: "website" });
+    ensureMeta('meta[property="og:site_name"]', { property: "og:site_name", content: "Shriyanshu Portfolio" });
+    ensureMeta('meta[property="og:title"]', { property: "og:title", content: document.title });
+    ensureMeta('meta[property="og:description"]', { property: "og:description", content: pageDescription });
+    ensureMeta('meta[property="og:url"]', { property: "og:url", content: canonicalUrl });
+    ensureMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary" });
+    ensureMeta('meta[name="twitter:title"]', { name: "twitter:title", content: document.title });
+    ensureMeta('meta[name="twitter:description"]', { name: "twitter:description", content: pageDescription });
+
+    const mainContent = document.querySelector("main");
+    if (mainContent && !mainContent.id) {
+        mainContent.id = "main-content";
+    }
+
+    if (mainContent && !document.querySelector(".skip-link")) {
+        const skipLink = document.createElement("a");
+        skipLink.className = "skip-link";
+        skipLink.href = "#main-content";
+        skipLink.textContent = "Skip to main content";
+        document.body.prepend(skipLink);
+    }
+
+    const accessibilityStyles = document.createElement("style");
+    accessibilityStyles.textContent = `
+        .skip-link {
+            position: fixed;
+            top: 10px;
+            left: 12px;
+            z-index: 5000;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #101014;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            transform: translateY(-160%);
+            transition: transform .2s ease;
+        }
+        .skip-link:focus { transform: translateY(0); }
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid #58d6ff;
+            outline-offset: 4px;
+            border-radius: 8px;
+        }
+    `;
+    document.head.appendChild(accessibilityStyles);
+
+    /* =========================================================
        SHARED PAGE FALLBACKS
        Older pages use the same navbar but may not include the
        mobile toggle/id markup. Normalise them at runtime.
@@ -132,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
        ACTIVE NAVIGATION
     ========================================================= */
 
-    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    const currentPage = pageFile;
     const navigationLinks = document.querySelectorAll("#mainNav a, .nav-links a");
 
     navigationLinks.forEach(link => {
