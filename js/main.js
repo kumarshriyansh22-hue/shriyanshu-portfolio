@@ -6,25 +6,48 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================================================
+       SHARED PAGE FALLBACKS
+       Older pages use the same navbar but may not include the
+       mobile toggle/id markup. Normalise them at runtime.
+    ========================================================= */
+
+    const navContainer = document.querySelector(".nav-container");
+    let mainNav = document.getElementById("mainNav") || document.querySelector(".navbar nav");
+    let menuToggle = document.getElementById("menuToggle");
+
+    if (mainNav && !mainNav.id) {
+        mainNav.id = "mainNav";
+    }
+
+    if (navContainer && mainNav && !menuToggle) {
+        menuToggle = document.createElement("button");
+        menuToggle.className = "menu-toggle";
+        menuToggle.id = "menuToggle";
+        menuToggle.type = "button";
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.innerHTML = "<span></span><span></span>";
+        navContainer.insertBefore(menuToggle, mainNav);
+    }
+
+    let scrollProgress = document.getElementById("scrollProgress");
+
+    if (!scrollProgress) {
+        scrollProgress = document.createElement("div");
+        scrollProgress.className = "scroll-progress";
+        scrollProgress.id = "scrollProgress";
+        document.body.prepend(scrollProgress);
+    }
+
+    /* =========================================================
        MOBILE NAVIGATION
     ========================================================= */
 
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("mainNav");
-
     if (menuToggle && mainNav) {
-
         menuToggle.addEventListener("click", () => {
-
             const isOpen = mainNav.classList.toggle("open");
-
             menuToggle.classList.toggle("open", isOpen);
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                isOpen ? "true" : "false"
-            );
-
+            menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
         });
 
         const navLinks = mainNav.querySelectorAll("a");
@@ -47,17 +70,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 menuToggle.setAttribute("aria-expanded", "false");
             }
         });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 700) {
+                mainNav.classList.remove("open");
+                menuToggle.classList.remove("open");
+                menuToggle.setAttribute("aria-expanded", "false");
+            }
+        });
     }
 
     /* =========================================================
        SCROLL PROGRESS
     ========================================================= */
 
-    const scrollProgress = document.getElementById("scrollProgress");
-
     const updateScrollProgress = () => {
-        if (!scrollProgress) return;
-
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
 
@@ -145,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ========================================================= */
 
     const interactiveCards = document.querySelectorAll(
-        ".focus-card, .learning-card, .contact-card, .project-row, .work-card, .experience-card"
+        ".focus-card, .learning-card, .contact-card, .project-row, .project-feature, .work-card, .experience-card, .certification-card"
     );
 
     interactiveCards.forEach(card => {
