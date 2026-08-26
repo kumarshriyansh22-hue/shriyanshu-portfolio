@@ -27,529 +27,249 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
-
-        // Close menu when clicking a navigation link
-
         const navLinks = mainNav.querySelectorAll("a");
 
         navLinks.forEach(link => {
-
             link.addEventListener("click", () => {
-
                 mainNav.classList.remove("open");
                 menuToggle.classList.remove("open");
-
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
+                menuToggle.setAttribute("aria-expanded", "false");
             });
-
         });
 
-
-        // Close menu when clicking outside
-
         document.addEventListener("click", event => {
-
             if (
                 !mainNav.contains(event.target) &&
                 !menuToggle.contains(event.target)
             ) {
-
                 mainNav.classList.remove("open");
                 menuToggle.classList.remove("open");
-
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
+                menuToggle.setAttribute("aria-expanded", "false");
             }
-
         });
-
     }
-
-
 
     /* =========================================================
        SCROLL PROGRESS
     ========================================================= */
 
-    const scrollProgress =
-        document.getElementById("scrollProgress");
+    const scrollProgress = document.getElementById("scrollProgress");
 
     const updateScrollProgress = () => {
-
         if (!scrollProgress) return;
 
-        const scrollTop =
-            window.scrollY || document.documentElement.scrollTop;
-
-        const documentHeight =
-            document.documentElement.scrollHeight -
-            window.innerHeight;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
 
         if (documentHeight <= 0) {
-
             scrollProgress.style.width = "0%";
             return;
-
         }
 
-        const progress =
-            (scrollTop / documentHeight) * 100;
-
-        scrollProgress.style.width =
-            `${Math.min(progress, 100)}%`;
-
+        const progress = (scrollTop / documentHeight) * 100;
+        scrollProgress.style.width = `${Math.min(progress, 100)}%`;
     };
 
-    window.addEventListener(
-        "scroll",
-        updateScrollProgress,
-        { passive: true }
-    );
-
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
     updateScrollProgress();
-
-
 
     /* =========================================================
        REVEAL ANIMATIONS
+       CSS uses .reveal.visible, so JavaScript must add "visible".
     ========================================================= */
 
-    const revealElements =
-        document.querySelectorAll(".reveal");
+    const revealElements = document.querySelectorAll(".reveal");
 
     if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.08,
+                rootMargin: "0px 0px -20px 0px"
+            }
+        );
 
-        const revealObserver =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(entry => {
-
-                        if (entry.isIntersecting) {
-
-                            entry.target.classList.add("revealed");
-
-                            revealObserver.unobserve(
-                                entry.target
-                            );
-
-                        }
-
-                    });
-
-                },
-                {
-                    threshold: 0.12,
-                    rootMargin: "0px 0px -50px 0px"
-                }
-            );
-
-
-        revealElements.forEach(element => {
-
-            revealObserver.observe(element);
-
-        });
-
+        revealElements.forEach(element => revealObserver.observe(element));
     } else {
-
-        // Fallback for older browsers
-
-        revealElements.forEach(element => {
-
-            element.classList.add("revealed");
-
-        });
-
+        revealElements.forEach(element => element.classList.add("visible"));
     }
-
-
 
     /* =========================================================
        ACTIVE NAVIGATION
     ========================================================= */
 
-    const currentPage =
-        window.location.pathname
-            .split("/")
-            .pop() || "index.html";
-
-    const navigationLinks =
-        document.querySelectorAll(
-            "#mainNav a, .nav-links a"
-        );
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    const navigationLinks = document.querySelectorAll("#mainNav a, .nav-links a");
 
     navigationLinks.forEach(link => {
-
-        const href =
-            link.getAttribute("href");
-
+        const href = link.getAttribute("href");
         if (!href) return;
 
-        const linkPage =
-            href.split("/").pop();
+        const linkPage = href.split("/").pop();
 
         if (
             linkPage === currentPage ||
-            (
-                currentPage === "" &&
-                linkPage === "index.html"
-            )
+            (currentPage === "" && linkPage === "index.html")
         ) {
-
-            navigationLinks.forEach(
-                navLink =>
-                    navLink.classList.remove("active")
-            );
-
+            navigationLinks.forEach(navLink => navLink.classList.remove("active"));
             link.classList.add("active");
-
         }
-
     });
-
-
 
     /* =========================================================
        SMOOTH INTERNAL LINKS
     ========================================================= */
 
-    document
-        .querySelectorAll('a[href^="#"]')
-        .forEach(link => {
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener("click", event => {
+            const targetId = link.getAttribute("href");
+            if (!targetId || targetId === "#") return;
 
-            link.addEventListener("click", event => {
+            const target = document.querySelector(targetId);
+            if (!target) return;
 
-                const targetId =
-                    link.getAttribute("href");
-
-                if (
-                    !targetId ||
-                    targetId === "#"
-                ) {
-                    return;
-                }
-
-                const target =
-                    document.querySelector(targetId);
-
-                if (!target) return;
-
-                event.preventDefault();
-
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-            });
-
+            event.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
         });
-
-
+    });
 
     /* =========================================================
        CARD HOVER MICRO-INTERACTION
     ========================================================= */
 
-    const interactiveCards =
-        document.querySelectorAll(
-            ".focus-card, .learning-card, .contact-card, .project-row, .work-card, .experience-card"
-        );
-
+    const interactiveCards = document.querySelectorAll(
+        ".focus-card, .learning-card, .contact-card, .project-row, .work-card, .experience-card"
+    );
 
     interactiveCards.forEach(card => {
+        card.addEventListener("mousemove", event => {
+            if (window.innerWidth < 768) return;
 
-        card.addEventListener(
-            "mousemove",
-            event => {
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -1.5;
+            const rotateY = ((x - centerX) / centerX) * 1.5;
 
-                // Disable effect on small screens
+            card.style.transform = `translateY(-4px) perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
 
-                if (window.innerWidth < 768) {
-                    return;
-                }
-
-                const rect =
-                    card.getBoundingClientRect();
-
-                const x =
-                    event.clientX - rect.left;
-
-                const y =
-                    event.clientY - rect.top;
-
-                const centerX =
-                    rect.width / 2;
-
-                const centerY =
-                    rect.height / 2;
-
-                const rotateX =
-                    ((y - centerY) / centerY) * -1.5;
-
-                const rotateY =
-                    ((x - centerX) / centerX) * 1.5;
-
-                card.style.transform =
-                    `translateY(-4px) perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-            }
-        );
-
-
-        card.addEventListener(
-            "mouseleave",
-            () => {
-
-                card.style.transform = "";
-
-            }
-        );
-
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "";
+        });
     });
-
-
 
     /* =========================================================
        MAGNETIC BUTTON EFFECT
     ========================================================= */
 
-    const buttons =
-        document.querySelectorAll(
-            ".btn.primary, .cta-button"
-        );
-
+    const buttons = document.querySelectorAll(".btn.primary, .cta-button");
 
     buttons.forEach(button => {
+        button.addEventListener("mousemove", event => {
+            if (window.innerWidth < 768) return;
 
-        button.addEventListener(
-            "mousemove",
-            event => {
+            const rect = button.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const moveX = (x - rect.width / 2) * 0.08;
+            const moveY = (y - rect.height / 2) * 0.08;
 
-                if (window.innerWidth < 768) {
-                    return;
-                }
+            button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
 
-                const rect =
-                    button.getBoundingClientRect();
-
-                const x =
-                    event.clientX - rect.left;
-
-                const y =
-                    event.clientY - rect.top;
-
-                const moveX =
-                    (x - rect.width / 2) * 0.08;
-
-                const moveY =
-                    (y - rect.height / 2) * 0.08;
-
-                button.style.transform =
-                    `translate(${moveX}px, ${moveY}px)`;
-
-            }
-        );
-
-
-        button.addEventListener(
-            "mouseleave",
-            () => {
-
-                button.style.transform = "";
-
-            }
-        );
-
+        button.addEventListener("mouseleave", () => {
+            button.style.transform = "";
+        });
     });
-
-
 
     /* =========================================================
        MARQUEE PAUSE ON HOVER
     ========================================================= */
 
-    const marquee =
-        document.querySelector(
-            ".marquee-track"
-        );
-
+    const marquee = document.querySelector(".marquee-track");
 
     if (marquee) {
+        marquee.addEventListener("mouseenter", () => {
+            marquee.style.animationPlayState = "paused";
+        });
 
-        marquee.addEventListener(
-            "mouseenter",
-            () => {
-
-                marquee.style.animationPlayState =
-                    "paused";
-
-            }
-        );
-
-
-        marquee.addEventListener(
-            "mouseleave",
-            () => {
-
-                marquee.style.animationPlayState =
-                    "running";
-
-            }
-        );
-
+        marquee.addEventListener("mouseleave", () => {
+            marquee.style.animationPlayState = "running";
+        });
     }
-
-
 
     /* =========================================================
        PARALLAX HERO EFFECT
     ========================================================= */
 
-    const heroCard =
-        document.querySelector(".hero-card");
+    const heroCard = document.querySelector(".hero-card");
+    const heroSection = document.querySelector(".home-hero");
 
-    const heroSection =
-        document.querySelector(".home-hero");
-
-
-    if (
-        heroCard &&
-        heroSection &&
-        window.innerWidth >= 900
-    ) {
-
+    if (heroCard && heroSection && window.innerWidth >= 900) {
         window.addEventListener(
             "scroll",
             () => {
+                const scroll = window.scrollY;
+                const heroHeight = heroSection.offsetHeight;
 
-                const scroll =
-                    window.scrollY;
+                if (scroll > heroHeight) return;
 
-                const heroHeight =
-                    heroSection.offsetHeight;
-
-                if (scroll > heroHeight) {
-                    return;
-                }
-
-                const movement =
-                    scroll * 0.035;
-
-                heroCard.style.transform =
-                    `translateY(${movement}px)`;
-
+                const movement = scroll * 0.035;
+                heroCard.style.transform = `translateY(${movement}px)`;
             },
             { passive: true }
         );
-
     }
-
-
 
     /* =========================================================
        CURRENT YEAR
     ========================================================= */
 
-    const yearElements =
-        document.querySelectorAll(
-            "[data-current-year]"
-        );
-
-
-    yearElements.forEach(element => {
-
-        element.textContent =
-            new Date().getFullYear();
-
+    document.querySelectorAll("[data-current-year]").forEach(element => {
+        element.textContent = new Date().getFullYear();
     });
-
-
 
     /* =========================================================
        EXTERNAL LINKS
     ========================================================= */
 
-    document
-        .querySelectorAll(
-            'a[href^="http://"], a[href^="https://"]'
-        )
-        .forEach(link => {
-
-            if (
-                !link.getAttribute("target")
-            ) {
-
-                link.setAttribute(
-                    "target",
-                    "_blank"
-                );
-
-                link.setAttribute(
-                    "rel",
-                    "noopener noreferrer"
-                );
-
-            }
-
-        });
-
-
+    document.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach(link => {
+        if (!link.getAttribute("target")) {
+            link.setAttribute("target", "_blank");
+            link.setAttribute("rel", "noopener noreferrer");
+        }
+    });
 
     /* =========================================================
        REDUCED MOTION ACCESSIBILITY
     ========================================================= */
 
-    const prefersReducedMotion =
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        );
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+    const applyMotionPreference = event => {
+        if (event.matches) {
+            document.documentElement.classList.add("reduce-motion");
+            revealElements.forEach(element => element.classList.add("visible"));
+        } else {
+            document.documentElement.classList.remove("reduce-motion");
+        }
+    };
 
-    if (prefersReducedMotion.matches) {
+    applyMotionPreference(prefersReducedMotion);
 
-        document.documentElement.classList.add(
-            "reduce-motion"
-        );
-
+    if (prefersReducedMotion.addEventListener) {
+        prefersReducedMotion.addEventListener("change", applyMotionPreference);
     }
 
-
-    prefersReducedMotion.addEventListener(
-        "change",
-        event => {
-
-            if (event.matches) {
-
-                document.documentElement.classList.add(
-                    "reduce-motion"
-                );
-
-            } else {
-
-                document.documentElement.classList.remove(
-                    "reduce-motion"
-                );
-
-            }
-
-        }
-    );
-
-
-
-    /* =========================================================
-       PAGE LOADED
-    ========================================================= */
-
     document.body.classList.add("page-loaded");
-
 });
