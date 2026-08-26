@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kumarshriyansh22-hue.github.io/shriyanshu-portfolio/sitemap.xml
